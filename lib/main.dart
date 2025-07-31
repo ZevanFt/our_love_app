@@ -8,6 +8,8 @@ import 'package:our_love/providers/weather_provider.dart';
 // 引入路由配置
 import 'package:our_love/routes/router.dart';
 // 引入定位工具类，以便在应用启动时请求权限
+import 'package:our_love/config/env_config.dart'; // 导入环境配置
+import 'package:our_love/config/environment.dart'; // 导入环境枚举
 import 'package:our_love/utils/location_utils.dart';
 
 // main 函数是应用的入口点
@@ -15,6 +17,19 @@ void main() async {
   // 将 main 函数改为 async
   // 确保 Flutter 的绑定已经初始化
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 从命令行 --dart-define=ENV=... 获取环境名称，默认为 development
+  const String envName = String.fromEnvironment(
+    'ENV',
+    defaultValue: 'development',
+  );
+  // 将字符串转换为 Environment 枚举
+  final Environment env = Environment.values.firstWhere(
+    (e) => e.toString().split('.').last == envName,
+    orElse: () => Environment.development,
+  );
+  // 设置应用环境
+  EnvironmentConfig.setEnvironment(env);
 
   // 在应用启动时就请求定位权限，这是一个好的实践
   await LocationUtils.requestPermission();

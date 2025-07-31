@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ReminderCard extends StatelessWidget {
   const ReminderCard({super.key});
@@ -37,7 +38,22 @@ class ReminderCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: Theme.of(context).textTheme.titleLarge),
+        Row(
+          children: [
+            SvgPicture.asset(
+              'lib/assets/icons/svg/anniversary.svg',
+              width: 24,
+              height: 24,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              title,
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontFamily: 'SW-Kai'),
+            ),
+          ],
+        ),
         TextButton(onPressed: () {}, child: const Text('切换到伴侣')),
       ],
     );

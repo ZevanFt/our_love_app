@@ -51,7 +51,10 @@ class MoreTool extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset('images/tool_swiper.png', fit: BoxFit.cover),
+              child: Image.asset(
+                'lib/assets/bgImage/tool_swiper.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

@@ -59,9 +59,8 @@ class LocationUtils {
         locationSettings = AndroidSettings(
           accuracy: LocationAccuracy.high,
           distanceFilter: 100,
-          forceLocationManager: true,
+          // forceLocationManager: true, // 移除此行，它可能导致在某些设备上崩溃
           timeLimit: timeLimit,
-          intervalDuration: const Duration(seconds: 10),
         );
       } else if (Platform.isIOS || Platform.isMacOS) {
         locationSettings = AppleSettings(

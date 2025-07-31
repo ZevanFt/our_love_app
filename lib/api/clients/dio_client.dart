@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:our_love/config/environment.dart';
 import 'package:our_love/config/env_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,9 +34,6 @@ class DioClient {
             options.headers['Authorization'] = 'Bearer $token';
           }
 
-          // 打印请求头，方便调试
-          print('Request Headers: ${options.headers}');
-
           // 继续执行请求
           return handler.next(options);
         },
@@ -48,14 +44,6 @@ class DioClient {
         },
         // --- 错误拦截 (可选) ---
         onError: (DioException e, handler) {
-          // 打印详细的错误信息
-          print('Dio Error: $e');
-          if (e.response != null) {
-            print('Error Response data: ${e.response?.data}');
-            print('Error Response headers: ${e.response?.headers}');
-          } else {
-            print('Error sending request: ${e.message}');
-          }
           // 可以在这里对网络错误进行统一处理，例如 token 失效时跳转到登录页
           return handler.next(e);
         },

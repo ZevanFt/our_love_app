@@ -55,7 +55,7 @@ class _WishTreeState extends State<WishTree> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'images/wishTree.png',
+                'lib/assets/bgImage/wishTree.png',
                 width: MediaQuery.of(context).size.width * 0.75,
                 // height: 500,
               ),

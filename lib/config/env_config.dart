@@ -7,7 +7,9 @@ import 'package:our_love/config/environment.dart';
 // 定义应用运行环境及对应服务地址
 class EnvironmentConfig {
   // 当前环境类型（默认为开发环境）
-  static Environment _currentEnv = Environment.development;
+  static late final Environment _currentEnv;
+
+  // static late final Environment _currentEnv = Environment.development;
 
   // 统一的 baseURL
   static String get apiBaseUrl {

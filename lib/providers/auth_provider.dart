@@ -98,40 +98,41 @@ class AuthProvider with ChangeNotifier {
   /// `tryAutoLogin` 方法：在应用启动时尝试自动登录。
   /// 这个方法应该在 main.dart 中，应用启动时调用一次。
   Future<bool> tryAutoLogin() async {
-    // 1. 【持久化】获取 SharedPreferences 实例
+    // 1. 获取 SharedPreferences 实例
     final prefs = await SharedPreferences.getInstance();
 
-    // 2. 【持久化】尝试从设备读取 token
+    // 2. 尝试从设备读取 token
     final String? token = prefs.getString('auth_token');
 
-    // 3. 如果没有 token，说明用户从未登录或已登出，直接返回 false
+    // 3. 如果没有 token，直接返回 false
     if (token == null) {
       return false;
     }
 
-    // 4. 如果有 token，说明用户之前登录过。
-    //    在真实应用中，您应该在这里发起一个API请求（例如 /user/profile）来验证 token 的有效性，
-    //    并获取最新的用户信息。
-    //    这里我们为了简化，直接认为有 token 就是登录成功。
+    // 4. 如果有 token，调用API验证其有效性并获取用户信息
+    try {
+      final response = await UserService.getUserProfile();
 
-    // 5. 模拟通过 token 获取用户信息
-    // 在真实场景中，这里应该调用API获取用户信息，然后使用 UserModel.fromJson
-    // 为了演示，我们创建一个模拟的 UserModel 对象
-    _user = UserModel.fromJson({
-      "id": 999,
-      "yier_number": "cached_user",
-      "password": "cached_password",
-      "name": "自动登录用户",
-      "manifest_consistent_whether": false,
-      "is_admin": false,
-      "point": 0,
-      "createdAt": DateTime.now().toIso8601String(),
-      "updatedAt": DateTime.now().toIso8601String(),
-    });
-    _isLoggedIn = true;
+      // 5. 检查API响应是否成功
+      if (response.statusCode == 200 && response.data['code'] == 0) {
+        // 6. 解析真实的用户数据
+        final Map<String, dynamic> userData = response.data['result'];
+        _user = UserModel.fromJson(userData);
+        _isLoggedIn = true;
 
-    // 6. 通知UI刷新
-    notifyListeners();
-    return true;
+        // 7. 通知UI刷新并返回成功
+        notifyListeners();
+        return true;
+      } else {
+        // 8. 如果 token 无效或服务器返回错误，则登出
+        await logout();
+        return false;
+      }
+    } catch (e) {
+      // 9. 如果请求过程中发生任何异常（如网络问题），也登出
+      print('自动登录异常: $e');
+      await logout();
+      return false;
+    }
   }
 }
