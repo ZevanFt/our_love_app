@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:our_love/pages/product_edit.dart';
 
 // 创建 StatefulWidget 类
 class PointsStore extends StatefulWidget {
@@ -87,16 +89,7 @@ class _PointsStoreState extends State<PointsStore> {
               style: TextStyle(fontSize: 16, fontFamily: 'SW-Kai'),
             ),
             onPressed: () {
-              setState(() {
-                // 点击添加商品按钮，执行相应逻辑，例如添加一个新商品到 _products 列表中
-                // 按理来说，点击该按钮后弹出对话框，让用户输入商品信息，然后添加到列表中。此处仅为示例代码：
-                // 或者，跳转到新页面，让用户输入商品信息，然后添加到列表中。此处仅为示例代码：
-                _products.add({
-                  'image': 'lib/assets/images/he-hao.jpg', // 替换为实际图片路径
-                  'name': '新商品',
-                  'points': '100',
-                });
-              });
+              context.go('/product_edit');
             },
             // 点击添加商品按钮，执行相应逻辑
           ),
@@ -125,7 +118,7 @@ class _PointsStoreState extends State<PointsStore> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            debugPrint('点击进入卡包按钮');
+                            context.push('/coupon_wallet');
                           },
                           // 设置按钮样式以减小行高
                           style: TextButton.styleFrom(
@@ -239,6 +232,13 @@ class _PointsStoreState extends State<PointsStore> {
   }
 
   Widget _buildMallItem(String imagePath, String name, String points) {
+    Widget imageWidget;
+    if (imagePath.startsWith('lib/assets/')) {
+      imageWidget = Image.asset(imagePath, height: 120, fit: BoxFit.cover);
+    } else {
+      imageWidget = Image.file(File(imagePath), height: 120, fit: BoxFit.cover);
+    }
+
     return Container(
       constraints: const BoxConstraints(minHeight: 200),
       padding: const EdgeInsets.all(10),
@@ -255,8 +255,8 @@ class _PointsStoreState extends State<PointsStore> {
         children: [
           // 展示商品图片，使用 ClipRRect 裁剪图片为圆角
           ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            child: Image.asset(imagePath, height: 120, fit: BoxFit.cover),
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            child: imageWidget,
           ),
           const SizedBox(height: 8),
           FittedBox(

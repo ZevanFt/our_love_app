@@ -85,7 +85,7 @@ class WeatherCard extends StatelessWidget {
         );
 
         return FractionallySizedBox(
-          widthFactor: 0.95,
+          widthFactor: 1.0,
           child: Column(
             children: [
               // 本人天气卡片

@@ -1,106 +1,104 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class ReminderCard extends StatelessWidget {
-  const ReminderCard({super.key});
+class DrinkWaterReminderCard extends StatelessWidget {
+  const DrinkWaterReminderCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Column(
-        children: [
-          _buildSectionHeader(context, title: '日程提醒'),
-          const SizedBox(height: 8),
-          _buildReminderItem(
-            context,
-            title: '上班',
-            subtitle: '即将成为牛马',
-            date: '2025.7.25',
-          ),
-          const Divider(),
-          _buildReminderItem(
-            context,
-            title: '研究生入学',
-            subtitle: '项目讨论',
-            date: '2025.7.25',
-          ),
-          const SizedBox(height: 16),
-          _buildSectionHeader(context, title: '喝水提醒'),
-          const SizedBox(height: 8),
-          _buildWaterReminder(context),
-        ],
+    return FractionallySizedBox(
+      widthFactor: 1.0,
+      child: Container(
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 8,
+              offset: const Offset(0, 4), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            _buildWaterProgress(),
+            const SizedBox(width: 24),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '已完成 6 / 10 杯',
+                    style: TextStyle(
+                      fontFamily: 'SW-Kai',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.grey[800],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '继续加油哦！',
+                    style: TextStyle(
+                      fontFamily: 'SW-Kai',
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.add, size: 20),
+                    label: const Text('记录一杯'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      textStyle: const TextStyle(
+                        fontFamily: 'SW-Kai',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, {required String title}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            SvgPicture.asset(
-              'lib/assets/icons/svg/anniversary.svg',
-              width: 24,
-              height: 24,
+  Widget _buildWaterProgress() {
+    return SizedBox(
+      width: 90,
+      height: 90,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          CircularProgressIndicator(
+            value: 0.6,
+            strokeWidth: 10,
+            backgroundColor: Colors.blue.withOpacity(0.1),
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+          ),
+          Center(
+            child: Icon(
+              Icons.water_drop_rounded,
+              color: Colors.blue.withOpacity(0.8),
+              size: 45,
             ),
-            const SizedBox(width: 10),
-            Text(
-              title,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontFamily: 'SW-Kai'),
-            ),
-          ],
-        ),
-        TextButton(onPressed: () {}, child: const Text('切换到伴侣')),
-      ],
-    );
-  }
-
-  Widget _buildReminderItem(
-    BuildContext context, {
-    required String title,
-    required String subtitle,
-    required String date,
-  }) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: Text(date),
-      onTap: () {},
-    );
-  }
-
-  Widget _buildWaterReminder(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('今天你喝水了没?'),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.add_circle_outline),
-                  label: const Text('记录'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            // A simple progress bar
-            LinearProgressIndicator(
-              value: 0.6,
-              backgroundColor: Colors.grey.shade300,
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

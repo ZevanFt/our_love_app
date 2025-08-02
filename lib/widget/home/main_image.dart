@@ -14,7 +14,7 @@ class MainImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      widthFactor: 0.95,
+      widthFactor: 1.0,
       child: CarouselSlider(
         options: CarouselOptions(
           autoPlay: true,

@@ -19,10 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // 从命令行 --dart-define=ENV=... 获取环境名称，默认为 development
-  const String envName = String.fromEnvironment(
-    'ENV',
-    defaultValue: 'development',
-  );
+  const String envName = String.fromEnvironment('ENV', defaultValue: 'staging');
   // 将字符串转换为 Environment 枚举
   final Environment env = Environment.values.firstWhere(
     (e) => e.toString().split('.').last == envName,

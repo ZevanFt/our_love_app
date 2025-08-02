@@ -13,6 +13,7 @@ import 'package:our_love/pages/about_me.dart';
 // 主体框架
 import 'package:our_love/widget/main_scaffold.dart';
 // 其他页面
+import 'package:our_love/pages/product_edit.dart';
 import 'package:our_love/pages/weather_info.dart';
 import 'package:our_love/pages/wish_tree.dart';
 import 'package:our_love/pages/anniversary.dart';
@@ -21,6 +22,8 @@ import 'package:our_love/pages/wife_demand.dart';
 import 'package:our_love/pages/about_author.dart';
 import 'package:our_love/pages/about_app.dart';
 import 'package:our_love/pages/help_feedback.dart';
+import 'package:our_love/pages/coupon_wallet_page.dart';
+import 'package:our_love/pages/coupon_history_page.dart';
 
 // 将 GoRouter 的创建封装在一个方法中，以便我们可以传递 refreshListenable
 GoRouter createAppRouter(AuthProvider authProvider) {
@@ -123,6 +126,18 @@ GoRouter createAppRouter(AuthProvider authProvider) {
       GoRoute(
         path: '/help_feedback',
         builder: (context, state) => const HelpFeedbackPage(),
+      ),
+      GoRoute(
+        path: '/product_edit',
+        builder: (context, state) => const ProductEditPage(),
+      ),
+      GoRoute(
+        path: '/coupon_wallet',
+        builder: (context, state) => const CouponWalletPage(),
+      ),
+      GoRoute(
+        path: '/coupon_history',
+        builder: (context, state) => CouponHistoryPage(),
       ),
     ],
   );
